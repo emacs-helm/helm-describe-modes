@@ -73,9 +73,10 @@
   '(("Describe minor mode" .  describe-minor-mode)
     ("Find minor mode" .  helm-find-function)
     ("Turn off minor mode(s)" .  (lambda (_ignored)
-				  (mapc (lambda (mode)
-					  (funcall (intern-soft mode) -1))
-					(helm-marked-candidates)))))
+				   (mapc (lambda (mode)
+					   (funcall (helm-describe-modes--minor-mode-function
+						     (intern-soft mode)) -1))
+					 (helm-marked-candidates)))))
   "Actions for active minor modes."
   :group 'helm-describe-modes
   :type '(alist :key-type string :value-type function))
@@ -84,9 +85,10 @@
   '(("Describe minor mode" .  describe-minor-mode)
     ("Find minor mode" .  helm-find-function)
     ("Turn on minor mode(s)" .  (lambda (_ignored)
-				 (mapc (lambda (mode)
-					 (funcall (intern-soft mode) t))
-				       (helm-marked-candidates)))))
+				  (mapc (lambda (mode)
+					  (funcall (helm-describe-modes--minor-mode-function
+						    (intern-soft mode)) t))
+					(helm-marked-candidates)))))
   "Actions for inactive minor modes."
   :group 'helm-describe-modes
   :type '(alist :key-type string :value-type function))
@@ -94,25 +96,27 @@
 
 ;;; Helm sources
 
+(defun helm-describe-modes--minor-mode-function (minor-mode)
+  "Get the symbol for MINOR-MODE's function.
+
+This is usually the same symbol as MINOR-MODE."
+  (or (get minor-mode :minor-mode-function)
+      minor-mode))
+
 (defun helm-describe-modes--minor-modes ()
-  "Return a list of all minor modes.
+  "Return a list of all minor modes symbols with functions.
 
 Some older packages do not register in `minor-mode-list', only in
 `minor-mode-alist'.  See `describe-mode' for more information."
-  (let ((minor-modes minor-mode-list))
-    (dolist (pair minor-mode-alist)
-      (unless (memq (car pair) minor-mode-list)
-	(push (car pair) minor-modes)))
-    minor-modes))
+  (cl-remove-if-not (lambda (mode)
+		      (fboundp (helm-describe-modes--minor-mode-function mode)))
+		    (cl-remove-duplicates (append (mapcar #'car minor-mode-alist)
+						  minor-mode-list))))
 
 (defun helm-describe-modes--active-minor-modes ()
   "Return a list of active minor modes.
 
-This function assumes that each minor mode's toggle command and
-control variable have the same name (which is the default
-behavior when defining a minor mode).
-
-See `define-minor-mode' for more information."
+A minor mode is assumed to be active if it has a value."
   (cl-remove-if-not (lambda (mode)
 		      (and (boundp mode)
 			   (symbol-value mode)))
@@ -142,8 +146,8 @@ See `define-minor-mode' for more information."
 (defun helm-def-source--inactive-minor-modes ()
   "Return a `helm' source for inactive minor modes.
 
-This is the set of all minor modes excluding active minor
-modes.  See `helm-describe-modes--minor-modes' and
+This is the set of all minor modes excluding active minor modes.
+See `helm-describe-modes--minor-modes' and
 `helm-describe-modes--active-minor-modes' for more information."
   (helm-build-sync-source "Inactive minor modes"
     :action 'helm-describe-modes-inactive-minor-mode-actions
