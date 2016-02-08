@@ -61,11 +61,10 @@
 (defcustom helm-describe-modes-major-mode-actions
   '(("Describe major mode" .  helm-describe-function)
     ("Find major mode" .  helm-find-function)
-    ("Customize major mode" .  (lambda (mode)
-			  (customize-mode (intern-soft mode))))
+    ("Customize major mode" .  customize-mode)
     ("Set as initial major mode" .  (lambda (mode)
 				     (customize-set-variable 'initial-major-mode
-							     (intern-soft mode)))))
+							     mode))))
   "Actions for major mode."
   :group 'helm-describe-modes
   :type '(alist :key-type string :value-type function))
@@ -124,6 +123,7 @@ See `define-minor-mode' for more information."
   (helm-build-sync-source "Major mode"
     :action 'helm-describe-modes-major-mode-actions
     :candidates (list major-mode)
+    :coerce 'intern-soft
     :nomark t))
 
 (defun helm-def-source--active-minor-modes ()
@@ -133,6 +133,7 @@ See `define-minor-mode' for more information."
     :candidates (helm-describe-modes--active-minor-modes)
     :candidate-transformer (lambda (modes)
 			     (sort modes #'string-lessp))
+    :coerce 'intern-soft
     :persistent-action (lambda (mode)
 			 (helm-elisp--persistent-help
 			  mode 'describe-minor-mode))
@@ -150,6 +151,7 @@ modes.  See `helm-describe-modes--minor-modes' and
 				   (helm-describe-modes--active-minor-modes))
     :candidate-transformer (lambda (modes)
 			     (sort modes #'string-lessp))
+    :coerce 'intern-soft
     :persistent-action (lambda (mode)
 			 (helm-elisp--persistent-help
 			  mode 'describe-minor-mode))
