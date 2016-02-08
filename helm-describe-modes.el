@@ -3,6 +3,7 @@
 ;; Copyright (C) 2016 Tianxiang Xiong
 
 ;; Author: Tianxiang Xiong <tianxiang.xiong@gmail.com>
+;; Package-Requires: ((helm "1.9") (cl-lib "0.5") (emacs "24.1"))
 ;; Keywords: docs, convenience
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -42,6 +43,8 @@
 
 (eval-when-compile (require 'cl-lib))
 (require 'helm)
+
+(declare-function helm-elisp--persistent-help "helm-elisp")
 
 
 ;;; Customize
