@@ -3,6 +3,7 @@
 ;; Copyright (C) 2016 Tianxiang Xiong
 
 ;; Author: Tianxiang Xiong <tianxiang.xiong@gmail.com>
+;; Package-Requires: ((helm "1.9") (cl-lib "0.5") (emacs "24.1"))
 ;; Keywords: docs, convenience
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -43,6 +44,8 @@
 (eval-when-compile (require 'cl-lib))
 (require 'helm)
 
+(declare-function helm-elisp--persistent-help "helm-elisp")
+
 
 ;;; Customize
 (defgroup helm-describe-modes nil
@@ -73,9 +76,9 @@
   '(("Describe minor mode" .  describe-minor-mode)
     ("Find minor mode" .  helm-find-function)
     ("Turn off minor mode(s)" .  (lambda (_ignored)
-				  (mapc (lambda (mode)
-					  (funcall (intern-soft mode) -1))
-					(helm-marked-candidates)))))
+                                   (mapc (lambda (mode)
+                                           (funcall mode -1))
+                                         (helm-marked-candidates)))))
   "Actions for active minor modes."
   :group 'helm-describe-modes
   :type '(alist :key-type string :value-type function))
@@ -84,9 +87,7 @@
   '(("Describe minor mode" .  describe-minor-mode)
     ("Find minor mode" .  helm-find-function)
     ("Turn on minor mode(s)" .  (lambda (_ignored)
-				 (mapc (lambda (mode)
-					 (funcall (intern-soft mode) t))
-				       (helm-marked-candidates)))))
+                                  (mapc #'funcall (helm-marked-candidates)))))
   "Actions for inactive minor modes."
   :group 'helm-describe-modes
   :type '(alist :key-type string :value-type function))
@@ -168,9 +169,7 @@ By default, it lists the major mode, active minor modes, and
 inactive minor modes.  Sources can be added or removed by
 customizing `helm-describe-modes-function-list'."
   (interactive)
-  (helm :sources (mapcar (lambda (func)
-			   (funcall func))
-			 helm-describe-modes-function-list)
+  (helm :sources (mapcar #'funcall helm-describe-modes-function-list)
 	:buffer "*Helm Describe Modes*"))
 
 
