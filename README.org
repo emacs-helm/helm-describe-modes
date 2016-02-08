@@ -1,0 +1,23 @@
+* Helm Describe Modes
+
+** Introduction
+
+=helm-describe-modes= provides a Helm interface to Emacs's =describe-mode=. It
+lists the major mode, active minor modes, and inactive minor modes using Helm,
+and provides actions for each mode.
+
+** Usage
+
+Add the following to your init file (e.g. =/.emacs.d/init.el=) to remap
+=describe-mode= to =helm-describe-modes=:
+
+#+BEGIN_SRC emacs-lisp
+  (require helm-describe-modes)
+  (global-set-key [remap describe-mode] #'helm-describe-modes)
+#+END_SRC
+
+For information about the Helm framework, see the the [[https://github.com/emacs-helm/helm-descbinds][Helm project]].
+
+** Other
+This package is heavily inspired by the [[https://github.com/emacs-helm/helm-descbinds][helm-descbinds]] package by Taiki
+Sugawara.
