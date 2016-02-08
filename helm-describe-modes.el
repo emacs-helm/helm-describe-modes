@@ -171,7 +171,7 @@ customizing `helm-describe-modes-function-list'."
   (helm :sources (mapcar (lambda (func)
 			   (funcall func))
 			 helm-describe-modes-function-list)
-	:buffer "*helm modes*"))
+	:buffer "*Helm Describe Modes*"))
 
 
 ;;; Provide
