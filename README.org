@@ -8,7 +8,7 @@ and provides actions for each mode.
 
 ** Usage
 
-Add the following to your init file (e.g. =/.emacs.d/init.el=) to remap
+Add the following to your init file (e.g. =~/.emacs.d/init.el=) to remap
 =describe-mode= to =helm-describe-modes=:
 
 #+BEGIN_SRC emacs-lisp
