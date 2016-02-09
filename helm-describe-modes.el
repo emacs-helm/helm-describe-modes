@@ -55,9 +55,9 @@
   :group 'helm)
 
 (defcustom helm-describe-modes-function-list
-  '(helm-def-source--major-mode
-    helm-def-source--active-minor-modes
-    helm-def-source--inactive-minor-modes)
+  '(helm-describe-modes-def-source--major-mode
+    helm-describe-modes-def-source--active-minor-modes
+    helm-describe-modes-def-source--inactive-minor-modes)
   "List of functions that build Helm sources for `helm-describe-modes'."
   :group 'helm-describe-modes
   :type '(repeat (choice symbol)))
@@ -123,7 +123,7 @@ A minor mode is assumed to be active if it has a value."
 			   (symbol-value mode)))
 		    (helm-describe-modes--minor-modes)))
 
-(defun helm-def-source--major-mode ()
+(defun helm-describe-modes-def-source--major-mode ()
   "Return a `helm' source for the major mode."
   (helm-build-sync-source "Major mode"
     :action 'helm-describe-modes-major-mode-actions
@@ -131,7 +131,7 @@ A minor mode is assumed to be active if it has a value."
     :coerce 'intern-soft
     :nomark t))
 
-(defun helm-def-source--active-minor-modes ()
+(defun helm-describe-modes-def-source--active-minor-modes ()
   "Return a `helm' source for active minor modes."
   (helm-build-sync-source "Active minor modes"
     :action 'helm-describe-modes-active-minor-mode-actions
@@ -144,7 +144,7 @@ A minor mode is assumed to be active if it has a value."
 			  mode 'describe-minor-mode))
     :persistent-help "Describe minor mode"))
 
-(defun helm-def-source--inactive-minor-modes ()
+(defun helm-describe-modes-def-source--inactive-minor-modes ()
   "Return a `helm' source for inactive minor modes.
 
 This is the set of all minor modes excluding active minor modes.
