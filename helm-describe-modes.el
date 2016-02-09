@@ -42,7 +42,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl-lib))
+(require 'cl-lib)
 (require 'helm)
 
 (declare-function helm-elisp--persistent-help "helm-elisp")
