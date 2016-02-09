@@ -5,6 +5,7 @@
 ;; Author: Tianxiang Xiong <tianxiang.xiong@gmail.com>
 ;; Package-Requires: ((helm "1.9") (cl-lib "0.5") (emacs "24.1"))
 ;; Keywords: docs, convenience
+;; Version: 1.0.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -22,7 +23,7 @@
 ;;; Commentary:
 
 ;; This package provides a Helm interface to major and minor mode
-;; information. It is intended as a replacement for `describe-mode',
+;; information.  It is intended as a replacement for `describe-mode',
 ;; `describe-minor-mode', and other related commands.
 ;;
 ;; This package is heavily inspired by the `helm-descbinds' package by
