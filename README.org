@@ -18,7 +18,7 @@ Add the following to your init file (e.g. =~/.emacs.d/init.el=) to remap
   (global-set-key [remap describe-mode] #'helm-describe-modes)
 #+END_SRC
 
-For information about the Helm framework, see the the [[https://github.com/emacs-helm/helm-descbinds][Helm project]].
+For information about the Helm framework, see the [[https://github.com/emacs-helm/helm][Helm project]].
 
 ** Other
 This package is heavily inspired by the [[https://github.com/emacs-helm/helm-descbinds][helm-descbinds]] package by Taiki
