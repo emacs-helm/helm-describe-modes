@@ -1,3 +1,5 @@
+[[https://melpa.org/#/helm-describe-modes][file:https://melpa.org/packages/helm-describe-modes-badge.svg]]
+
 * Helm Describe Modes
 
 ** Introduction
