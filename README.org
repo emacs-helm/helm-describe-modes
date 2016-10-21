@@ -8,6 +8,8 @@
 lists the major mode, active minor modes, and inactive minor modes using Helm,
 and provides actions for each mode.
 
+[[./doc/modes.png]]
+
 ** Usage
 
 Add the following to your init file (e.g. =~/.emacs.d/init.el=) to remap
